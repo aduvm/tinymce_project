@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title_block %}{% endblock %}</title>
+    {% block head_block %}{% endblock %}
+
+    <script type="text/javascript" src="{% static  'libs/syntaxhighlighter/scripts/XRegExp.js' %}"></script>
+    <script type="text/javascript" src="{% static 'libs/syntaxhighlighter/scripts/shCore.js' %}"></script>
+    <script type="text/javascript" src="{% static 'libs/syntaxhighlighter/scripts/shBrushJScript.js' %}"></script>
+    <script type="text/javascript" src="{% static 'libs/syntaxhighlighter/scripts/shBrushPython.js' %}"></script>
+    <script type="text/javascript" src="{% static 'libs/syntaxhighlighter/scripts/shBrushCss.js' %}"></script>
+    <script type="text/javascript" src="{% static 'libs/syntaxhighlighter/scripts/shBrushXml.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'libs/tinymce/tinymce.min.js' %}"></script>
+
+    <link href="{% static 'libs/syntaxhighlighter/styles/shCore.css' %}" rel="stylesheet" type="text/css"/>
+    <link href="{% static 'libs/syntaxhighlighter/styles/shCoreDefault.css' %}" rel="stylesheet" type="text/css"/>
+
+    <script type="text/javascript" type="text/javascript">
+        SyntaxHighlighter.all()
+    </script>
+    {% block tinymce_init %}
+    <script>
+
+        tinymce.init({
+            selector: 'textarea#editable',
+            theme: 'modern',
+            width: 800,
+            height: 600,
+            plugins: [
+                'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'save table contextmenu directionality emoticons template paste textcolor sh4tinymce'
+            ],
+            //content_css: 'css/content.css',
+            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons | sh4tinymce'
+        });
+
+{#        tinymce.init({#}
+{#            //selector: 'textarea#editable'#}
+{#            selector: 'textarea#editable',#}
+{#            plugins: 'advlist anchor autolink autoresize autosave bbcode charmap code  codesample colorpicker contextmenu directionality emoticons fullpage fullscreen help hr image imagetools importcss insertdatetime legacyoutput link lists media nonbreaking noneditable pagebreak paste preview print save searchreplace spellchecker tabfocus table template textcolor textpattern toc visualblocks visualchars wordcount sh4tinymce',#}
+{#            toolbar1: 'undo redo | styleselect | bold italic | link image | sh4tinymce | alignleft aligncenter alignright',#}
+{#            menubar: 'file edit view',#}
+{##}
+{#        });#}
+
+    </script>
+ {% endblock %}
+</head>
+<body>
+{% block body_block %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,65 @@
+{#{% block title %}{{ title }} | {% trans “Django Admin” %}{% endblock %}#}
+{% extends "admin/base.html" %}
+{% load staticfiles %}
+{% block extrahead %}
+     <script type="text/javascript" src="{% static 'libs/tinymce/tinymce.min.js' %}"></script>
+     <script>
+
+        tinymce.init({
+            selector: 'textarea',
+            images_upload_url: 'postAcceptor.php',
+            automatic_uploads: true,
+            images_upload_handler: function (blobInfo, success, failure) {
+                var xhr,formData;
+                xhr = new XMLHttpRequest();
+                xhr.open('POST','{% url 'update_image' %}');
+                xhr.onload = function(){
+                    var json;
+                    if(xhr.status != 200){
+                        console.log("HTTP Error "+ xhr.status);
+                        failure("HTTP Error "+ xhr.status);
+                        return;
+                    }
+                    console.log("json----> " + xhr.status);
+                    console.log("json----> " + xhr.response);
+                    json = JSON.parse(xhr.response);
+                    if(!json || typeof json.location !=  "string"){
+                        failure("Invalid JSON: " + xhr.response);
+                        console.log("Invalid JSON: " +xhr.response);
+                        return;
+                    }
+
+
+                     success(json.location);
+
+                };
+                formData = new FormData();
+                formData.append('file',blobInfo.blob(),blobInfo.filename());
+                xhr.send(formData);
+            },
+            theme: 'modern',
+            width: 800,
+            height: 600,
+            plugins: [
+                'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+                'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                'save table contextmenu directionality emoticons template paste textcolor sh4tinymce'
+            ],
+            //content_css: 'css/content.css',
+            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage | forecolor backcolor emoticons | sh4tinymce',
+            images_reuse_filename: false,
+            relative_urls: false,
+            remove_script_host: false,
+
+        });
+
+    </script>
+{% endblock %}
+{% block title %}{{ title }} {% endblock %}
+
+{% block branding %}
+    {# Use the div#grp-branding for branding elements, e.g. a logo #}
+    {# <div id="grp-branding"></div> #}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
